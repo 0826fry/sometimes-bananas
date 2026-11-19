@@ -1,0 +1,13 @@
+{
+  "name": "sometimes-bananas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "가끔 바나나 — 무작위 출판사",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="무작위 출판사의 사장님이 되어보세요. 직원은 원숭이 한 마리. 글은 모르지만, 바나나를 주면 계속 타이핑합니다.">
+  <title>가끔 바나나 — 무작위 출판사</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='40' fill='%23111'/%3E%3Ctext x='40' y='55' text-anchor='middle' font-size='48' fill='white'%3E猿%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="monkey.css">
+  <link rel="stylesheet" href="commissions.css">
+  <link rel="stylesheet" href="editors.css">
+  <link rel="stylesheet" href="bookbinding.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="wordmark" href="./" aria-label="가끔 바나나 처음으로">가끔 바나나 <span>SOMETIMES, BANANAS</span></a>
+      <nav aria-label="화면 설정">
+        <button id="sound-toggle" class="quiet-button" type="button" aria-pressed="false">소리 끔</button>
+        <button id="theme-toggle" class="quiet-button" type="button">화면 자동</button>
+        <button id="about-open" class="quiet-button" type="button">이 실험은?</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="introduction" aria-labelledby="page-title">
+        <div><p class="eyebrow">RANDOM PRESS / 사장님과 직원 한 마리</p><h1 id="page-title">가끔 바나나<span class="title-period">.</span></h1></div>
+        <p class="intro-copy">사장님은 문장을 기다리고,<br>직원은 바나나를 기다립니다.</p>
+      </section>
+
+      <p class="opening-note">이곳은 무작위 출판사. 사장님은 당신, 직원은 원숭이 한 마리입니다.<br>글은 읽지 못하지만, 키는 잘 누릅니다. 오늘 출판할 문장을 맡겨주세요.</p>
+
+      <div class="workspace">
+        <aside class="commission-panel" aria-label="원고와 원숭이 돌보기">
+          <button id="inbox-open" class="inbox-button" type="button"><span><small>INCOMING MANUSCRIPT</small><strong id="inbox-label">외주 요청이 도착했습니다.</strong></span><span aria-hidden="true">↗</span></button>
+          <div class="publishing-links"><button id="bookshelf-open" class="text-button" type="button">출판한 책 · 0</button></div>
+          <section id="assignment-card" class="assignment-card" hidden aria-label="진행 중인 외주">
+            <span id="assignment-meta"></span><strong id="assignment-title"></strong><p id="assignment-progress"></p>
+            <button id="assignment-next" class="text-button" type="button">다음 묶음 맡기기 ↗</button>
+          </section>
+          <form id="commission-form">
+            <div class="section-label"><span>01 / 오늘의 업무 지시</span><span id="target-count">12 / 48</span></div>
+            <label class="sr-only" for="target-input">원숭이에게 맡길 문장</label>
+            <textarea id="target-input" rows="3" spellcheck="false" placeholder="언젠가 완성될 문장을 적어주세요.">좋아하는 것을 오래.</textarea>
+            <div class="suggestions" id="suggestions" aria-label="예시 문장">
+              <button type="button" data-example="좋아하는 것을 오래.">좋아하는 것을 오래.</button>
+              <button type="button" data-example="To be, or not to be.">To be, or not to be.</button>
+            </div>
+            <label class="name-field" for="monkey-name"><span>직원 이름</span><input id="monkey-name" value="몽" maxlength="12" autocomplete="off"></label>
+            <button class="solid-button" id="start-button" type="submit">업무 맡기기 <span aria-hidden="true">↗</span></button>
+            <p class="field-message" id="input-message">직원은 두드리고, 출판사는 맞은 글자를 골라냅니다.</p>
+          </form>
+
+          <section class="care-panel" id="care-panel" hidden aria-label="원숭이 상태">
+            <div class="section-label"><span id="monkey-label">02 / 몽의 작업실</span><span id="state-label">작업 중</span></div>
+            <div class="energy-label"><span>기운</span><span id="energy-value">100</span></div>
+            <div class="energy-track" role="progressbar" aria-label="원숭이의 기운" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div id="energy-fill"></div></div>
+            <div class="care-buttons">
+              <button id="feed-button" type="button"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 6c1 14 9 20 20 16C18 32 1 24 4 9M6 6l3 1-1 4M26 22l2-3"/></svg><span>바나나 지급</span></button>
+              <button id="pause-button" type="button"><span class="pause-symbol" aria-hidden="true">Ⅱ</span><span id="pause-label">쉬게 하기</span></button>
+            </div>
+            <p class="monkey-comment" id="monkey-comment">몽은 일단 아무 키나 눌러봅니다.</p>
+            <button id="receipt-open" class="solid-button" type="button" hidden>근무 영수증 <span aria-hidden="true">↗</span></button>
+            <button id="bind-current" class="text-button bind-button" type="button" hidden>이 원고 제본하기 ↗</button>
+            <button id="new-button" class="text-button" type="button">새 원고 맡기기</button>
+          </section>
+
+          <div class="sidebar-footnote"><span class="small-dot" aria-hidden="true"></span><p id="save-note">이 브라우저에 원고를 보관합니다.<br>자리를 비우면 원숭이도 쉽니다.</p></div>
+        </aside>
+
+        <section class="studio" aria-label="타이핑 중인 원고">
+          <div class="manuscript">
+            <div class="paper-meta"><span>무작위 출판사</span><span id="paper-no">원고 NO. 001</span></div>
+            <div class="target-output" id="target-output" aria-label="완성 중인 문장"></div>
+            <div class="progress-caption"><span id="progress-caption">아직 아무 글자도 쓰지 않았습니다.</span><span id="progress-fraction">0 / 12</span></div>
+            <div id="editor-mount"></div>
+            <div class="paper-divider"></div>
+            <div class="raw-heading"><span>고르지 않은 글자들</span><span id="live-key" aria-hidden="true">_</span></div>
+            <div class="raw-stream" id="raw-stream" aria-label="최근 타이핑 기록"><p class="empty-manuscript">이 아래로 수많은 틀린 글자가 쌓입니다.<br>그중 몇 글자만 당신의 문장이 됩니다.</p></div>
+            <div class="paper-bottom"><span id="paper-stamp">NOT YET A MASTERPIECE</span><button id="history-open" type="button" disabled>지나간 원고 <span aria-hidden="true">↗</span></button></div>
+          </div>
+
+          <div class="monkey-stage">
+            <div class="monkey-scene" id="monkey-scene" role="img" aria-label="타자기 앞에서 기다리는 원숭이"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" role="img" aria-labelledby="monkey-title monkey-description">
+  <title id="monkey-title">타자기 앞의 원숭이</title>
+  <desc id="monkey-description">구부정하게 앉아 무심한 얼굴로 타자기를 두드리는 작은 원숭이.</desc>
+  <g stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+    <path class="monkey-tail" d="M147 234C111 257 53 257 45 227c-7-26 15-43 31-32 13 10 7 26-4 26-6 0-9-5-8-9"/>
+    <path d="M148 146c-24 9-35 32-35 57 0 24 16 38 43 38h42c11 0 14-12 4-17l-21-10c10-26 9-51-9-66"/>
+    <path d="M130 190c-5 19 3 34 21 34h25m-41 17-8 6m25-6-4 6m39-20 5 8m-4-4 6 5" stroke-width="1.4"/>
+    <path d="M154 151c-11 19-13 31-7 45 6 14 22 21 43 21l26-1"/>
+    <path d="M167 148c-4 22 1 39 17 45l33 7"/>
+    <path d="M180 147c9 2 17 17 22 25l24 17m-47-30c7 8 12 18 19 23l23 14"/>
+    <g class="monkey-head">
+      <path d="M135 104c-8-2-17 0-17 12 0 11 8 16 18 12m1-18c-6-5-12-1-12 5 0 6 4 9 9 7"/>
+      <path d="M136 104c-2-18 8-34 28-38l-3-8 10 6 6-8 3 10c20 1 32 16 34 34 1 9-2 17-8 22 2 15-5 28-19 33-14 5-30 2-40-9-11-12-14-27-11-42Z"/>
+      <path d="M149 105c1-12 9-20 19-17 6 2 9 6 10 10 5-4 11-5 17-2 8 4 10 13 6 22" stroke-width="1.5"/>
+      <path d="M151 122c-1 10 6 20 21 23 17 4 30-3 31-14 1-9-9-17-24-19-14-3-26 1-28 10Z"/>
+      <g class="monkey-eye-open" fill="currentColor" stroke="none">
+        <path d="M159 105h6c0 4-1 6-3 6s-3-2-3-6Zm26 3h6c0 4-1 6-3 6s-3-2-3-6Z"/>
+      </g>
+      <g class="monkey-eye-shut" opacity="0" stroke-width="1.6">
+        <path d="m158 108 7 1m19 2 7 1"/>
+      </g>
+      <path d="m166 125 2 1m13 0 2 1m-17 9c8 2 14 2 21 0" stroke-width="1.5"/>
+      <path d="m140 92-3 5m61-17 4 5" stroke-width="1.2"/>
+    </g>
+    <g class="typewriter-carriage">
+      <path d="M243 168v-59h66v59" fill="var(--monkey-surface, var(--paper, #f8f7f2))"/>
+      <path d="M251 120h27m-27 7h39m-39 7h31m-31 7h8m8 0h21" stroke-width="1.1" opacity=".5"/>
+      <path d="M231 162h90v12h-90z" fill="var(--monkey-surface, var(--paper, #f8f7f2))"/>
+      <path d="M225 163h6v10h-6zm96 0h7v10h-7zm-4-1v-11h15"/>
+    </g>
+    <path d="M236 175h78l18 44H215l21-44Z" fill="var(--monkey-surface, var(--paper, #f8f7f2))"/>
+    <path d="M215 219h117v13H215zm8 13v5h10v-5m81 0v5h10v-5" fill="var(--monkey-surface, var(--paper, #f8f7f2))"/>
+    <path d="M239 183h71m-76 8h80m-85 9h89m-79 10h65" stroke-width="1.5"/>
+    <path d="M244 179v7m12-7v7m12-7v7m12-7v7m12-7v7m12-7v7m-65 1v8m13-8v8m13-8v8m13-8v8m13-8v8m13-8v8m-69 1v7m14-7v7m14-7v7m14-7v7m14-7v7m14-7v7" stroke-width="1"/>
+    <g class="monkey-hand-right" fill="var(--monkey-surface, var(--paper, #f8f7f2))">
+      <path d="m218 186 14 1c7 0 12 2 15 6 1 2 0 4-3 3l-10-3 13 7c3 2 2 5-1 4l-13-5 9 6c3 2 1 5-2 3l-13-7-7-4"/>
+    </g>
+    <g class="monkey-hand-left" fill="var(--monkey-surface, var(--paper, #f8f7f2))">
+      <path d="m210 200 16 1c6 0 10 3 12 6 2 3 0 5-3 3l-10-4 13 8c3 2 2 5-1 4l-13-6 9 7c2 2 0 4-3 2l-15-8-7-1"/>
+    </g>
+    <path d="M103 247h244" stroke-width="1.1" opacity=".4"/>
+    <path d="m310 250 16 3 11-6 13 9-5 11-24 1-13-7 2-11Z" stroke-width="1.4"/>
+    <path d="m310 250 13 9 14-12m-14 12-2 9m2-9 22 8m-22-8 27-3" stroke-width=".9" opacity=".6"/>
+  </g>
+</svg>
+</div>
+            <div class="scene-caption"><span class="scene-speaker"><i class="status-dot" id="status-dot"></i><span id="thought-speaker">직원 몽의 생각</span></span><p id="scene-caption">“뭘 하는지는 모르겠다.
+두드리면 가끔 바나나가 나온다.”</p></div>
+            <span class="ground-line" aria-hidden="true"></span>
+          </div>
+        </section>
+      </div>
+
+      <section class="ledger" aria-label="실제 작업 기록">
+        <div><span class="stat-label">누른 키</span><p><span id="stat-attempts">000000</span><small>번</small></p></div>
+        <div><span class="stat-label">골라 남긴 글자</span><p><span id="stat-matches">00</span><small id="stat-length">/ 12</small></p></div>
+        <div><span class="stat-label">실제 근무 시간</span><p><span id="stat-time">00:00</span></p></div>
+        <div><span class="stat-label">지급한 급여</span><p><span id="stat-bananas">00</span><small>바나나</small></p></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><span>사장님은 문장을 얻고, 직원은 하루를 보냈습니다.</span><span>AN EXPERIMENT BY HYUNJOON JEONG</span></footer>
+  </div>
+
+  <dialog id="about-dialog" class="dialog about-dialog" aria-labelledby="about-title">
+    <button class="dialog-close" type="button" data-close aria-label="닫기">×</button>
+    <p class="eyebrow">무작위 출판사 · 회사 소개</p><h2 id="about-title">사장님은 문학을.<br>직원은 바나나를.</h2>
+    <p>당신은 출판사를 차렸습니다. 직원은 원숭이 한 마리. 읽지도, 쓰지도 못하지만 타자기 앞에는 곧잘 앉아 있습니다. 사장님은 출판하고 싶은 문장을 정하고, 직원이 지치면 쉬게 하거나 바나나를 건넵니다.</p>
+    <blockquote>“뭘 하는지는 모르겠다. 두드리면 가끔 바나나가 나온다.”</blockquote>
+    <p>원숭이에게 타자기를 주면 언젠가 셰익스피어의 글을 쓸 수 있다는 이야기에서 시작했습니다.</p>
+    <p>이 출판사의 편집 방식은 조금 다릅니다. 직원은 계속 무작위로 키를 누르고, <strong>출판사는 다음에 필요한 글자와 우연히 같을 때만 그 글자를 골라 남깁니다.</strong> 문장 전체를 한 번에 맞히는 실험은 아닙니다.</p>
+    <p>바나나는 기운을 채워 타이핑을 조금 빠르게 합니다. 어떤 글자를 누를지에는 영향을 주지 않습니다. 원고가 바뀌어도 직원의 기운은 그대로 이어집니다. 화면을 떠나거나 쉬게 하면 작업 시간도 멈춥니다.</p>
+    <details><summary>이 원숭이의 키보드</summary><p>맡긴 문장의 글자에 영문 소문자, 공백과 <code>.,!?</code>를 더하고 중복을 뺍니다. 각 키가 눌릴 확률은 같습니다. 한글과 이모지도 눈에 보이는 한 글자 단위로 다룹니다.</p><p class="alphabet-preview" id="alphabet-preview"></p><p id="probability-note"></p></details>
+    <p class="fine-print">원고 1장은 키 240번으로 셉니다. 기록은 현재 브라우저에만 저장되며, 브라우저 데이터를 지우면 사라집니다.</p>
+  </dialog>
+
+  <dialog id="history-dialog" class="dialog history-dialog" aria-labelledby="history-title">
+    <button class="dialog-close" type="button" data-close aria-label="닫기">×</button>
+    <p class="eyebrow">THE REJECTED MANUSCRIPTS</p><h2 id="history-title">버려진 글자도 글이니까.</h2>
+    <p class="history-intro">진하게 남은 글자가 문장에 들어갔습니다. 공백은 ·로 표시합니다.</p>
+    <div id="history-page" class="history-page"></div>
+    <div class="history-navigation"><button id="history-prev" type="button" aria-label="이전 원고">←</button><span id="history-page-number"></span><button id="history-next" type="button" aria-label="다음 원고">→</button></div>
+  </dialog>
+
+  <dialog id="receipt-dialog" class="dialog receipt-dialog" aria-labelledby="receipt-title">
+    <button class="dialog-close" type="button" data-close aria-label="닫기">×</button>
+    <div class="receipt-content"><p class="eyebrow">무작위 출판사 · RANDOM PRESS</p><h2 id="receipt-title">업무 종료 영수증</h2><p class="receipt-date" id="receipt-date"></p><p id="receipt-quote" class="receipt-quote"></p><dl id="receipt-details"></dl><div id="receipt-art" class="receipt-art" role="img" aria-label="업무를 마친 원숭이"></div><p id="receipt-peels" class="receipt-peels"></p><p class="receipt-end" id="receipt-thought"></p><p class="fine-print">사장님은 원고 한 편을 얻었습니다.<br>직원은 무슨 글인지 끝내 몰랐습니다.</p></div>
+    <button id="receipt-download" type="button" class="solid-button">이미지로 간직하기 <span aria-hidden="true">↓</span></button>
+  </dialog>
+
+  <dialog id="inbox-dialog" class="dialog inbox-dialog" aria-labelledby="inbox-title">
+    <button class="dialog-close" type="button" data-close aria-label="닫기">×</button>
+    <p class="eyebrow">RANDOM PRESS / INBOX</p><h2 id="inbox-title">사장님, 원고가 들어왔습니다.</h2>
+    <div id="inbox-catalog">
+      <p class="inbox-intro">긴 원고를 받으면, 어디서 끊을지는 사장님이 정합니다.<br>직원에게는 한 번에 48자까지만 맡겨주세요.</p>
+      <div id="commission-samples" class="commission-samples"></div>
+      <p class="fine-print">이 출판사를 위해 만든 가상의 외주 요청입니다.</p>
+      <details class="custom-request"><summary>직접 받은 긴 원고 가져오기</summary>
+        <form id="custom-commission-form"><label for="custom-manuscript">원고 본문</label><textarea id="custom-manuscript" rows="7" placeholder="긴 글을 붙여넣어 주세요. 최대 4,000자." required></textarea><p id="custom-message" class="fine-print" role="status"></p><button type="submit" class="outline-button">이 원고 접수하기 ↗</button></form>
+      </details>
+    </div>
+    <section id="commission-editor" hidden>
+      <div class="request-heading"><span id="request-client"></span><h3 id="request-title"></h3><p id="request-note"></p><button id="request-change" class="text-button" type="button">다른 의뢰 고르기 ←</button></div>
+      <div class="commission-progress"><span id="request-progress"></span><span id="request-total"></span></div>
+      <div id="split-controls">
+        <p class="split-instruction">한 묶음씩 잘라주세요. 진한 부분이 이번에 맡길 글입니다.</p>
+        <div id="request-manuscript" class="request-manuscript" aria-label="외주 원고와 나눌 구간"></div>
+        <div class="split-range-row"><button id="split-less" type="button" aria-label="한 글자 줄이기">−</button><label class="sr-only" for="split-range">이번 묶음 글자 수</label><input id="split-range" type="range" min="1" max="48" value="48"><button id="split-more" type="button" aria-label="한 글자 늘리기">+</button><output id="split-count" for="split-range">48자</output></div>
+        <div class="split-actions"><button id="split-sentence" type="button" class="text-button">문장 끝에서 끊기</button><button id="split-add" type="button" class="outline-button">여기까지 한 묶음 +</button></div>
+      </div>
+      <p id="split-finished" class="split-finished" hidden>원고를 모두 나눴습니다. 이제 한 묶음씩 직원에게 맡겨주세요.</p>
+      <div class="queue-heading"><h3>나눠둔 업무</h3><button id="split-undo" class="text-button" type="button">마지막 묶음 다시 나누기</button></div>
+      <ol id="commission-queue" class="commission-queue"></ol>
+      <p id="queue-message" class="fine-print" role="status"></p>
+      <button id="queue-start" type="button" class="solid-button">첫 묶음 맡기기 ↗</button>
+      <div id="commission-finished" class="commission-finished" hidden><p>원고는 완성됐고, 직원은 여전히 무슨 글인지 모릅니다.</p><button id="commission-bind" type="button" class="solid-button">한 권으로 제본하기 ↗</button><button id="commission-copy" type="button" class="outline-button">완성 원고 복사</button><button id="commission-new" type="button" class="text-button">다음 의뢰 받기 ↗</button></div>
+    </section>
+  </dialog>
+
+  <dialog id="reset-dialog" class="dialog reset-dialog" aria-labelledby="reset-title"><p class="eyebrow">A NEW MANUSCRIPT</p><h2 id="reset-title">새 원고를 맡길까요?</h2><p>지금 원고와 타이핑 기록은 지워집니다.</p><div class="reset-actions"><button type="button" data-close>이어서 쓰기</button><button id="reset-confirm" class="solid-button" type="button">새로 시작하기</button></div></dialog>
+  <p class="toast" id="toast" role="status" aria-live="polite"></p>
+  <noscript><p>이 실험에는 JavaScript가 필요합니다. 브라우저에서 JavaScript를 켜주세요.</p></noscript>
+</body>
+</html>

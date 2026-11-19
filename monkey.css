@@ -1,0 +1,89 @@
+.monkey-scene {
+  color: inherit;
+  --monkey-surface: var(--bg, #f2f1ee);
+  --fatigue-head-tilt: 0deg;
+  --fatigue-head-x: 0px;
+  --fatigue-head-y: 0px;
+  --fatigue-body-tilt: 0deg;
+  --fatigue-tail-tilt: 0deg;
+  --fatigue-eye-open: 1;
+  --fatigue-left-period: .33s;
+  --fatigue-right-period: .41s;
+  --fatigue-hand-lift: 4px;
+  --fatigue-idle-period: 5.1s;
+}
+.monkey-scene svg { display: block; width: 100%; height: auto; overflow: visible; }
+.monkey-scene .monkey-head {
+  transform-origin: 173px 147px;
+  transform: translate(var(--fatigue-head-x), var(--fatigue-head-y)) rotate(var(--fatigue-head-tilt));
+  transition: transform .8s ease-out;
+}
+.monkey-scene .monkey-torso { transform-origin: 147px 235px; transform: rotate(var(--fatigue-body-tilt)); transition: transform .8s ease-out; }
+.monkey-scene .monkey-hand-left { transform-origin: 210px 207px; }
+.monkey-scene .monkey-hand-right { transform-origin: 220px 191px; }
+.monkey-scene .monkey-eye-open { transform-origin: 175px 109px; transform: scaleY(var(--fatigue-eye-open)); animation: monkey-blink 6.8s infinite; }
+.monkey-scene .monkey-tail { transform-origin: 146px 234px; transform: rotate(var(--fatigue-tail-tilt)); transition: transform .8s ease-out; }
+.monkey-scene.is-typing .monkey-hand-left,
+.is-typing .monkey-scene .monkey-hand-left { animation: monkey-left-key var(--fatigue-left-period) steps(2, end) infinite; }
+.monkey-scene.is-typing .monkey-hand-right,
+.is-typing .monkey-scene .monkey-hand-right { animation: monkey-right-key var(--fatigue-right-period) steps(2, end) infinite .08s; }
+.monkey-scene.is-typing .monkey-head,
+.is-typing .monkey-scene .monkey-head { animation: monkey-concentrate var(--fatigue-idle-period) ease-in-out infinite; }
+/* The left hand takes longer breaks while the right keeps a slower rhythm. */
+.monkey-scene.is-typing[data-fatigue=weary] .monkey-hand-left,
+.monkey-scene.is-typing[data-fatigue=exhausted] .monkey-hand-left { animation: monkey-one-hand 3.7s ease-in-out infinite; }
+.monkey-scene.is-typing[data-fatigue=exhausted] .monkey-hand-left { animation-duration: 5.2s; }
+.monkey-scene.is-typing[data-fatigue=exhausted] .monkey-head { animation-name: monkey-weary-nod; }
+.monkey-scene.is-typing[data-fatigue=exhausted] .monkey-eye-open { animation: monkey-heavy-blink 7.9s infinite; }
+.monkey-scene.is-sleeping .monkey-eye-open,
+.is-sleeping .monkey-scene .monkey-eye-open { opacity: 0; animation: none; }
+.monkey-scene.is-sleeping .monkey-eye-shut,
+.is-sleeping .monkey-scene .monkey-eye-shut { opacity: 1; }
+.monkey-scene.is-sleeping .monkey-head,
+.is-sleeping .monkey-scene .monkey-head {
+  transform: translate(var(--fatigue-head-x), calc(var(--fatigue-head-y) + 3px)) rotate(calc(var(--fatigue-head-tilt) + 7deg));
+  animation: monkey-breathe 5s ease-in-out infinite;
+}
+.monkey-scene.is-fed[data-fatigue] .monkey-head,
+.monkey-scene.is-fed .monkey-head { animation: monkey-nod .7s ease-in-out 2; }
+@keyframes monkey-blink {
+  0%, 43%, 46%, 77%, 80%, 100% { transform: scaleY(var(--fatigue-eye-open)); }
+  44%, 45%, 78%, 79% { transform: scaleY(.05); }
+}
+@keyframes monkey-heavy-blink {
+  0%, 48%, 70%, 100% { transform: scaleY(var(--fatigue-eye-open)); }
+  54%, 65% { transform: scaleY(.05); }
+}
+@keyframes monkey-left-key {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(calc(0px - var(--fatigue-hand-lift))) rotate(-4deg); }
+}
+@keyframes monkey-right-key {
+  0%, 100% { transform: translateY(-2px) rotate(-2deg); }
+  50% { transform: translateY(2px) rotate(2deg); }
+}
+@keyframes monkey-one-hand {
+  0%, 66%, 100% { transform: translateY(3px) rotate(5deg); }
+  77% { transform: translateY(-2px) rotate(-3deg); }
+  84% { transform: translateY(1px) rotate(1deg); }
+}
+@keyframes monkey-concentrate {
+  0%, 72%, 100% { transform: translate(var(--fatigue-head-x), var(--fatigue-head-y)) rotate(var(--fatigue-head-tilt)); }
+  82%, 92% { transform: translate(var(--fatigue-head-x), calc(var(--fatigue-head-y) + 1px)) rotate(calc(var(--fatigue-head-tilt) + 2deg)); }
+}
+@keyframes monkey-weary-nod {
+  0%, 46%, 100% { transform: translate(var(--fatigue-head-x), var(--fatigue-head-y)) rotate(var(--fatigue-head-tilt)); }
+  58%, 72% { transform: translate(var(--fatigue-head-x), calc(var(--fatigue-head-y) + 3px)) rotate(calc(var(--fatigue-head-tilt) + 5deg)); }
+  80% { transform: translate(var(--fatigue-head-x), var(--fatigue-head-y)) rotate(calc(var(--fatigue-head-tilt) - 2deg)); }
+}
+@keyframes monkey-breathe {
+  0%, 100% { transform: translate(var(--fatigue-head-x), calc(var(--fatigue-head-y) + 3px)) rotate(calc(var(--fatigue-head-tilt) + 7deg)); }
+  50% { transform: translate(var(--fatigue-head-x), calc(var(--fatigue-head-y) + 4.5px)) rotate(calc(var(--fatigue-head-tilt) + 7deg)); }
+}
+@keyframes monkey-nod {
+  0%, 100% { transform: translate(var(--fatigue-head-x), var(--fatigue-head-y)) rotate(var(--fatigue-head-tilt)); }
+  50% { transform: translate(var(--fatigue-head-x), calc(var(--fatigue-head-y) - 2px)) rotate(calc(var(--fatigue-head-tilt) - 5deg)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .monkey-scene *, .is-typing .monkey-scene *, .is-sleeping .monkey-scene * { animation: none !important; transition: none !important; }
+}

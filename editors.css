@@ -1,0 +1,24 @@
+/* Little pieces of paper; the underlying typewriter record remains untouched. */
+.edited-target .target-char.accepted{position:relative;z-index:0;animation:none;color:var(--ink)}
+.edited-target .target-char.accepted:not(.paper-whitespace)::before{content:'';position:absolute;z-index:-1;inset:0 -.035em;transform:translateY(var(--scrap-shift,0)) rotate(var(--scrap-angle,0deg));background:var(--bg);border:1px solid var(--rule);box-shadow:0 1px 1px #0000000c;clip-path:polygon(0 1%,98% 0,100% 97%,2% 100%);opacity:.85}
+.edited-target .target-char.editor-in-transit{color:var(--faint)!important}
+.edited-target .target-char.editor-in-transit::before{opacity:0!important}
+.edited-raw .kept,.edited-raw .kept.fresh{color:transparent!important;background:var(--bg)!important;box-shadow:inset 0 0 0 1px var(--rule);text-shadow:none;position:relative}
+.edited-raw .kept::after{content:'';position:absolute;inset:1px;border:1px dotted var(--faint);opacity:.45}
+.editor-layer{position:fixed;inset:0;z-index:16;pointer-events:none;overflow:hidden;color:var(--ink);font-family:var(--sans)}
+.editor-flying-scrap{position:absolute;display:flex;align-items:center;justify-content:center;background:var(--paper);color:var(--ink);border:1px dashed var(--muted);box-shadow:1px 2px 4px #0002;line-height:1;transform-origin:center;white-space:pre;will-change:transform,opacity}
+.editor-scissors{position:absolute;display:block;width:88px;height:60px;will-change:transform,opacity}
+.editor-scissors svg,.editor-press-hand svg{display:block;width:100%;height:100%;overflow:visible}
+.editor-press-hand{position:absolute;width:43px;height:56px;opacity:0;will-change:transform,opacity}
+.editing-desk{margin:13px 0 0;border-top:1px solid var(--rule);padding:10px 0 0;font-size:10px;color:var(--muted)}
+.editing-desk summary{display:flex;align-items:baseline;justify-content:space-between;gap:16px;cursor:pointer;list-style:none;min-height:24px}
+.editing-desk summary::-webkit-details-marker{display:none}.editing-desk summary>span:first-child{color:var(--ink)}
+.editing-desk summary>span:first-child::after{content:' +';color:var(--muted)}.editing-desk[open] summary>span:first-child::after{content:' −'}
+.editing-status{font-size:9px;text-align:right}
+.editing-note{padding:5px 0 3px}.editing-note p{font-size:11px;line-height:1.8;margin:0 0 5px;color:var(--ink)}
+.editing-note .editing-count{font-size:9px;color:var(--muted)}.editing-note .editing-rule{font-size:10px;color:var(--muted);max-width:400px;margin-top:10px}
+@media(max-width:720px){.editing-desk{margin-top:10px}.editor-scissors{width:75px;height:52px}.editor-press-hand{width:39px;height:50px}.editing-note p{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.editor-layer{display:none}.edited-target .target-char{transition:none}.edited-target .target-char.editor-in-transit{color:var(--ink)!important}.edited-target .target-char.editor-in-transit::before{opacity:.85!important}}
+
+.editor-scissors .editor-blade-a{transform-origin:39px 36px;animation:editor-snip-a .3s ease-in-out both}.editor-scissors .editor-blade-b{transform-origin:39px 36px;animation:editor-snip-b .3s ease-in-out both}
+@keyframes editor-snip-a{0%,100%{transform:rotate(0deg)}50%{transform:rotate(18deg)}}@keyframes editor-snip-b{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-18deg)}}
